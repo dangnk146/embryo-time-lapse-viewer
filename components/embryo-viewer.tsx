@@ -287,9 +287,9 @@ export default function EmbryoViewer() {
         onToggleInfo={setShowInfo}
       />
 
-      <div className="w-full h-full flex-1 flex flex-col gap-6 sm:gap-8 items-center p-4 sm:p-8 overflow-y-auto" ref={containerRef}>
+      <div className="w-full h-full flex-1 flex flex-col gap-4 sm:gap-8 items-center p-2 sm:p-8 overflow-y-auto" ref={containerRef}>
         <motion.div
-          className={`relative rounded-2xl overflow-hidden w-full bg-black flex-shrink-0 shadow-2xl transition-all duration-500 ${viewerSize === "sm" ? "max-w-md" : viewerSize === "lg" ? "max-w-4xl" : "max-w-2xl"
+          className={`relative rounded-xl sm:rounded-2xl overflow-hidden w-full bg-black flex-shrink-0 shadow-2xl transition-all duration-500 ${viewerSize === "sm" ? "max-w-md" : viewerSize === "lg" ? "max-w-full" : "max-w-2xl"
             }`}
           style={{
             borderWidth: "3px",

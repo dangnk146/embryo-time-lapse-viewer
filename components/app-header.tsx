@@ -97,19 +97,19 @@ export default function AppHeader({
     ]
 
     return (
-        <header className="relative w-full flex items-center justify-between bg-card/70 backdrop-blur-xl border-b border-border p-4 sticky top-0 z-50 shadow-sm">
+        <header className="relative w-full flex items-center justify-between bg-card/70 backdrop-blur-xl border-b border-border p-2 sm:p-4 sticky top-0 z-50 shadow-sm">
             {/* Hidden inputs */}
             <input ref={fileInputRef} type="file" multiple accept="image/*" onChange={onFileUpload} className="hidden" />
             <input ref={csvInputRef} type="file" accept=".csv" onChange={onCSVUpload} className="hidden" />
 
             {/* Left side: Folder and Select */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 sm:gap-2">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="outline" size="sm" className="border-border bg-secondary/50 hover:bg-secondary">
-                            <FolderOpen className="h-4 w-4 mr-2" />
-                            <span className="hidden sm:inline">{t('folder')}</span>
-                            <ChevronDown className="h-3 w-3 ml-2 opacity-50" />
+                        <Button variant="outline" size="sm" className="border-border bg-secondary/50 hover:bg-secondary h-8 sm:h-9 px-2">
+                            <FolderOpen className="h-4 w-4 sm:mr-2" />
+                            <span className="hidden md:inline">{t('folder')}</span>
+                            <ChevronDown className="h-3 w-3 ml-1 sm:ml-2 opacity-50" />
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="w-48 bg-card border-border text-foreground">
@@ -126,12 +126,12 @@ export default function AppHeader({
 
                 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                     <DialogTrigger asChild>
-                        <Button variant="outline" size="sm" className="border-border bg-secondary/50 hover:bg-secondary">
-                            <ListVideo className="h-4 w-4 mr-2" />
-                            <span className="hidden sm:inline">{t('availableDatasets')}</span>
+                        <Button variant="outline" size="sm" className="border-border bg-secondary/50 hover:bg-secondary h-8 sm:h-9 px-2">
+                            <ListVideo className="h-4 w-4 sm:mr-2" />
+                            <span className="hidden md:inline">{t('availableDatasets')}</span>
                         </Button>
                     </DialogTrigger>
-                    <DialogContent className="max-w-2xl bg-card border-border text-foreground">
+                    <DialogContent className="max-w-2xl bg-card border-border text-foreground w-[95vw] sm:w-full">
                         <DialogHeader>
                             <DialogTitle>{t('availableDatasets')}</DialogTitle>
                             <DialogDescription className="text-muted-foreground">
@@ -146,7 +146,7 @@ export default function AppHeader({
                                         onDatasetSelect(tl.id);
                                         setIsDialogOpen(false);
                                     }}
-                                    className="p-4 rounded-lg bg-secondary/30 border border-border hover:border-cyan-500/50 transition-colors cursor-pointer group"
+                                    className="p-3 sm:p-4 rounded-lg bg-secondary/30 border border-border hover:border-cyan-500/50 transition-colors cursor-pointer group"
                                 >
                                     <div className="flex items-start justify-between">
                                         <div>
@@ -154,7 +154,7 @@ export default function AppHeader({
                                             <div className="text-xs text-muted-foreground mt-1">{tl.patient}</div>
                                             <div className="text-[10px] text-muted-foreground/60 mt-2">{tl.date}</div>
                                         </div>
-                                        <FileVideo className="h-8 w-8 text-muted-foreground/40 group-hover:text-cyan-500 transition-colors" />
+                                        <FileVideo className="h-6 w-6 sm:h-8 sm:w-8 text-muted-foreground/40 group-hover:text-cyan-500 transition-colors" />
                                     </div>
                                 </div>
                             ))}
@@ -171,114 +171,150 @@ export default function AppHeader({
             </div>
 
             {/* Right side: Language, Theme, Reset and Size */}
-            <div className="flex items-center gap-1 sm:gap-2">
-                {/* Language Switcher */}
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                            <Languages className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => setLanguage("en")} className={language === "en" ? "bg-accent" : ""}>
-                            English {language === "en" && "✓"}
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => setLanguage("vi")} className={language === "vi" ? "bg-accent" : ""}>
-                            Tiếng Việt {language === "vi" && "✓"}
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-
-                {/* Theme Switcher */}
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                            <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                            <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                            <span className="sr-only">Toggle theme</span>
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => setTheme("light")}>
-                            <Sun className="mr-2 h-4 w-4" /> <span>{t('light')}</span>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => setTheme("dark")}>
-                            <Moon className="mr-2 h-4 w-4" /> <span>{t('dark')}</span>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => setTheme("system")}>
-                            <Laptop className="mr-2 h-4 w-4" /> <span>{t('system')}</span>
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => onToggleInfo(!showInfo)}
-                    className={`h-8 w-8 p-0 transition-all duration-300 rounded-full ${showInfo
+            <div className="flex items-center gap-1">
+                {/* Compact Mode: Show only Info and Fullscreen, Others in Menu */}
+                <div className="flex items-center gap-1">
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => onToggleInfo(!showInfo)}
+                        className={`h-8 w-8 p-0 transition-all duration-300 rounded-full ${showInfo
                             ? 'bg-primary text-primary-foreground shadow-[0_0_10px_rgba(var(--primary),0.5)] scale-110 active:scale-95'
                             : 'hover:bg-secondary text-muted-foreground'
-                        }`}
-                    title={t('info')}
-                >
-                    <Info className="h-4 w-4" />
-                </Button>
+                            }`}
+                        title={t('info')}
+                    >
+                        <Info className="h-4 w-4" />
+                    </Button>
 
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={togglePageFullscreen}
-                    className={`h-8 w-8 p-0 transition-all duration-300 rounded-full ${isPageFullscreen
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={togglePageFullscreen}
+                        className={`h-8 w-8 p-0 transition-all duration-300 rounded-full ${isPageFullscreen
                             ? 'bg-primary text-primary-foreground shadow-[0_0_10px_rgba(var(--primary),0.5)] scale-110'
                             : 'hover:bg-secondary text-muted-foreground'
-                        }`}
-                    title={isPageFullscreen ? t('exitFullScreen') : t('fullScreen')}
-                >
-                    {isPageFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
-                </Button>
+                            }`}
+                        title={isPageFullscreen ? t('exitFullScreen') : t('fullScreen')}
+                    >
+                        {isPageFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+                    </Button>
+                </div>
 
-                <div className="w-[1px] h-4 bg-border mx-1" />
+                <div className="w-[1px] h-4 bg-border mx-0.5 hidden sm:block" />
 
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={onReset}
-                    className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-8 sm:h-9 px-2"
-                >
-                    <RotateCcw className="h-4 w-4 sm:mr-2" />
-                    <span className="hidden xl:inline text-xs">{t('reset')}</span>
-                </Button>
+                {/* Hide text on small screens, or put in dropdown */}
+                <div className="hidden sm:flex items-center gap-1">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                                <Languages className="h-4 w-4" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={() => setLanguage("en")} className={language === "en" ? "bg-accent" : ""}>
+                                English {language === "en" && "✓"}
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => setLanguage("vi")} className={language === "vi" ? "bg-accent" : ""}>
+                                Tiếng Việt {language === "vi" && "✓"}
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
 
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            className="border-border bg-secondary/50 hover:bg-secondary h-8 sm:h-9 px-2"
-                        >
-                            <Settings className="h-4 w-4 sm:mr-2" />
-                            <span className="hidden xl:inline text-xs">{t('size')}</span>
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-56 bg-card border-border text-foreground">
-                        <DropdownMenuLabel>{t('viewerSize')}</DropdownMenuLabel>
-                        <DropdownMenuSeparator className="bg-border" />
-                        <DropdownMenuRadioGroup value={viewerSize} onValueChange={(value) => onSizeChange(value as "sm" | "md" | "lg")}>
-                            <DropdownMenuRadioItem value="sm" className="focus:bg-secondary focus:text-cyan-500">
-                                <Minimize className="mr-2 h-4 w-4" />
-                                <span>{t('small')}</span>
-                            </DropdownMenuRadioItem>
-                            <DropdownMenuRadioItem value="md" className="focus:bg-secondary focus:text-cyan-500">
-                                <Monitor className="mr-2 h-4 w-4" />
-                                <span>{t('medium')}</span>
-                            </DropdownMenuRadioItem>
-                            <DropdownMenuRadioItem value="lg" className="focus:bg-secondary focus:text-cyan-500">
-                                <Maximize className="mr-2 h-4 w-4" />
-                                <span>{t('large')}</span>
-                            </DropdownMenuRadioItem>
-                        </DropdownMenuRadioGroup>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                                <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                                <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={() => setTheme("light")}>
+                                <Sun className="mr-2 h-4 w-4" /> <span>{t('light')}</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => setTheme("dark")}>
+                                <Moon className="mr-2 h-4 w-4" /> <span>{t('dark')}</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => setTheme("system")}>
+                                <Laptop className="mr-2 h-4 w-4" /> <span>{t('system')}</span>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
+
+                <div className="flex sm:hidden">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                                <Settings className="h-4 w-4" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-56">
+                            <DropdownMenuLabel>{t('settings') || 'Cài đặt'}</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuLabel className="text-[10px] uppercase text-muted-foreground">{t('language') || 'Ngôn ngữ'}</DropdownMenuLabel>
+                            <DropdownMenuItem onClick={() => setLanguage("en")}>English</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => setLanguage("vi")}>Tiếng Việt</DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuLabel className="text-[10px] uppercase text-muted-foreground">{t('theme') || 'Giao diện'}</DropdownMenuLabel>
+                            <DropdownMenuItem onClick={() => setTheme("light")}>{t('light')}</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => setTheme("dark")}>{t('dark')}</DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuLabel className="text-[10px] uppercase text-muted-foreground">{t('viewerSize')}</DropdownMenuLabel>
+                            <DropdownMenuItem onClick={() => onSizeChange("sm")}>{t('small')}</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => onSizeChange("md")}>{t('medium')}</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => onSizeChange("lg")}>{t('large')}</DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem onClick={onReset} className="text-destructive focus:text-destructive">
+                                <RotateCcw className="h-4 w-4 mr-2" />
+                                <span>{t('reset')}</span>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
+
+                <div className="hidden sm:flex items-center gap-1">
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={onReset}
+                        className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-8 sm:h-9 px-2"
+                    >
+                        <RotateCcw className="h-4 w-4 sm:mr-2" />
+                        <span className="hidden xl:inline text-xs">{t('reset')}</span>
+                    </Button>
+
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className="border-border bg-secondary/50 hover:bg-secondary h-8 sm:h-9 px-2"
+                            >
+                                <Settings className="h-4 w-4 sm:mr-2" />
+                                <span className="hidden xl:inline text-xs">{t('size')}</span>
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="w-56 bg-card border-border text-foreground">
+                            <DropdownMenuLabel>{t('viewerSize')}</DropdownMenuLabel>
+                            <DropdownMenuSeparator className="bg-border" />
+                            <DropdownMenuRadioGroup value={viewerSize} onValueChange={(value) => onSizeChange(value as "sm" | "md" | "lg")}>
+                                <DropdownMenuRadioItem value="sm">
+                                    <Minimize className="mr-2 h-4 w-4" />
+                                    <span>{t('small')}</span>
+                                </DropdownMenuRadioItem>
+                                <DropdownMenuRadioItem value="md">
+                                    <Monitor className="mr-2 h-4 w-4" />
+                                    <span>{t('medium')}</span>
+                                </DropdownMenuRadioItem>
+                                <DropdownMenuRadioItem value="lg">
+                                    <Maximize className="mr-2 h-4 w-4" />
+                                    <span>{t('large')}</span>
+                                </DropdownMenuRadioItem>
+                            </DropdownMenuRadioGroup>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
             </div>
         </header>
     )

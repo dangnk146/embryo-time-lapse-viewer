@@ -32,10 +32,10 @@ export default function TimelineBar({ currentFrame, totalFrames, onFrameChange, 
   const currentStage = stages.find((s) => currentFrame >= s.startFrame && currentFrame <= s.endFrame)
 
   return (
-    <div className="flex flex-col gap-6 w-full bg-card/50 backdrop-blur-xl px-8 py-6 rounded-3xl border border-border shadow-[0_20px_50px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative transition-all duration-300">
+    <div className="flex flex-col gap-4 sm:gap-6 w-full bg-card/50 backdrop-blur-xl px-4 sm:px-8 py-4 sm:py-6 rounded-2xl sm:rounded-3xl border border-border shadow-[0_20px_50px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative transition-all duration-300">
       <div className="flex flex-col gap-1">
-        {/* Stage Labels Above Timeline */}
-        <div className="relative h-6 w-full mb-1">
+        {/* Stage Labels Above Timeline - Hidden on small mobile to prevent overlap */}
+        <div className="relative h-6 w-full mb-1 hidden sm:block">
           {stages.map((stage) => {
             const startPercent = (stage.startFrame / totalRange) * 100
             const midPercent = ((stage.startFrame + stage.endFrame) / 2 / totalRange) * 100
@@ -91,9 +91,18 @@ export default function TimelineBar({ currentFrame, totalFrames, onFrameChange, 
           })}
         </div>
 
+        {/* Mobile Stage Label (only show active one) */}
+        <div className="sm:hidden flex justify-center mb-1 h-5">
+          {currentStage && (
+            <span className="text-[10px] font-bold text-cyan-500 uppercase tracking-tighter">
+              {t(currentStage.name) || currentStage.name}
+            </span>
+          )}
+        </div>
+
         {/* Main Timeline Bar */}
         <div
-          className="relative h-10 bg-secondary/50 rounded-xl cursor-pointer overflow-hidden border border-border w-full group transition-all hover:border-primary/50 shadow-inner"
+          className="relative h-8 sm:h-10 bg-secondary/50 rounded-lg sm:rounded-xl cursor-pointer overflow-hidden border border-border w-full group transition-all hover:border-primary/50 shadow-inner"
           onClick={handleTimelineClick}
         >
           {/* Colored Segments */}
@@ -138,27 +147,27 @@ export default function TimelineBar({ currentFrame, totalFrames, onFrameChange, 
       </div>
 
       {/* Stats and Current Info */}
-      <div className="flex justify-between items-center px-4 py-2 bg-secondary/20 rounded-xl border border-border">
-        <div className="flex items-center gap-3">
+      <div className="flex items-center justify-between px-3 sm:px-4 py-2 bg-secondary/20 rounded-lg sm:rounded-xl border border-border gap-2">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
           <div className="flex flex-col">
-            <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">{t('currentStage')}</span>
-            <div className="flex items-center gap-2">
-              <span className="text-base font-bold text-foreground transition-all">
+            <span className="text-[8px] sm:text-[10px] uppercase tracking-widest text-muted-foreground font-bold truncate">{t('currentStage')}</span>
+            <div className="flex items-center gap-1 sm:gap-2">
+              <span className="text-sm sm:text-base font-bold text-foreground transition-all truncate">
                 {currentStage ? (t(currentStage.name) || currentStage.name) : t('noStage')}
               </span>
             </div>
             {currentFileName && (
-              <span className="text-[10px] text-cyan-500 font-mono mt-0.5 truncate max-w-[300px] opacity-80">
+              <span className="text-[8px] sm:text-[10px] text-cyan-500 font-mono mt-0.5 truncate max-w-[120px] sm:max-w-[300px] opacity-80">
                 {currentFileName}
               </span>
             )}
           </div>
         </div>
 
-        <div className="flex flex-col items-end">
-          <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">{t('progress')}</span>
-          <div className="text-base text-primary font-mono font-bold flex items-center gap-1.5">
-            <span className="bg-primary/10 px-2 py-0.5 rounded-md">{Math.floor(currentFrame)}</span>
+        <div className="flex flex-col items-end flex-shrink-0">
+          <span className="text-[8px] sm:text-[10px] uppercase tracking-widest text-muted-foreground font-bold">{t('progress')}</span>
+          <div className="text-sm sm:text-base text-primary font-mono font-bold flex items-center gap-1 sm:gap-1.5">
+            <span className="bg-primary/10 px-1.5 sm:px-2 py-0.5 rounded-md">{Math.floor(currentFrame)}</span>
             <span className="text-muted-foreground/30">/</span>
             <span className="text-muted-foreground/60">{totalRange}</span>
           </div>
